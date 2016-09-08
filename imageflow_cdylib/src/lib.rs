@@ -113,8 +113,13 @@
 //!
 //!
 //!
+#![feature(alloc_system)]
+
 
 #![crate_type = "cdylib"]
+
+
+extern crate alloc_system;
 extern crate libc;
 
 extern crate imageflow_core;
@@ -519,6 +524,8 @@ pub unsafe extern fn imageflow_send_json(context: *mut Context,
     let json_bytes = std::slice::from_raw_parts(json_buffer, json_buffer_size);
 
     //TODO: possibly iterate access to force segfaults earlier?
+
+    //TODO: throw not implemented for job and jobIO right now
 
 
     let mut ctx = ::imageflow_core::ContextPtr::from_ptr(context);
