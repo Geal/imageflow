@@ -14,7 +14,9 @@ export IMAGE_NAME=$1
 
 export DOCKER_IMAGE=imazen/$IMAGE_NAME
 
-export RUST_CHANNEL=$2
+
+export VALGRIND=${VALGRIND:-False}
+export RUST_CHANNEL=${$2:-nightly}
 
 export JOB_NAME=${IMAGE_NAME}_rust_$RUST_CHANNEL
 export WORKING_DIR=${SCRIPT_DIR}/.docker_$JOB_NAME
@@ -26,10 +28,6 @@ rsync -av --delete "${SCRIPT_DIR}/../../.." "$WORKING_DIR" --filter=':- .gitigno
 
 cd $WORKING_DIR
 
-export VALGRIND=false
-# if [[ "${RUST_CHANNEL}" == 'nightly' ]]; then
-#   #export VALGRIND=true
-# fi
 
 if [[ "$(uname -s)" == 'Darwin' ]]; then
 	eval "$(docker-machine env default)"
